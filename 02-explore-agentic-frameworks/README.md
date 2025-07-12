@@ -1,3 +1,7 @@
+[![Exploring AI Agent Frameworks](./images/lesson-2-thumbnail.png)](https://youtu.be/ODwF-EZo_O8?si=1xoy_B9RNQfrYdF7)
+
+> _(Click the image above to view video of this lesson)_
+
 # Explore AI Agent Frameworks
 
 AI agent frameworks are software platforms designed to simplify the creation, deployment, and management of AI agents. These frameworks provide developers with pre-built components, abstractions, and tools that streamline the development of complex AI systems.
@@ -565,10 +569,10 @@ from typing import Annotated
 
 from azure.identity.aio import DefaultAzureCredential
 
-from semantic_kernel.agents.azure_ai import AzureAIAgent, AzureAIAgentSettings
-from semantic_kernel.contents.chat_message_content import ChatMessageContent
-from semantic_kernel.contents.utils.author_role import AuthorRole
-from semantic_kernel.functions.kernel_function_decorator import kernel_function
+from semantic_kernel.agents import AzureAIAgent, AzureAIAgentSettings, AzureAIAgentThread
+from semantic_kernel.contents import ChatMessageContent
+from semantic_kernel.contents import AuthorRole
+from semantic_kernel.functions import kernel_function
 
 
 # Define a sample plugin for the sample
@@ -611,13 +615,13 @@ async def main() -> None:
         agent = AzureAIAgent(
             client=client,
             definition=agent_definition,
+            plugins=[MenuPlugin()],
         )
 
-        # Add the sample plugin to the kernel
-        agent.kernel.add_plugin(MenuPlugin(), plugin_name="menu")
-
-        # Create a new thread
-        thread = await client.agents.create_thread()
+        # Create a thread to hold the conversation
+        # If no thread is provided, a new thread will be
+        # created and returned with the initial response
+        thread: AzureAIAgentThread | None = None
 
         user_inputs = [
             "Hello",
@@ -628,18 +632,16 @@ async def main() -> None:
 
         try:
             for user_input in user_inputs:
-                # Add the user input as a chat message
-                await agent.add_chat_message(
-                    thread_id=thread.id, message=ChatMessageContent(role=AuthorRole.USER, content=user_input)
-                )
                 print(f"# User: '{user_input}'")
                 # Invoke the agent for the specified thread
-                async for content in agent.invoke(
-                    thread_id=thread.id,
-                ):
-                    print(f"# Agent: {content.content}")
+                response = await agent.get_response(
+                    messages=user_input,
+                    thread_id=thread,
+                )
+                print(f"# {response.name}: {response.content}")
+                thread = response.thread
         finally:
-            await client.agents.delete_thread(thread.id)
+            await thread.delete() if thread else None
             await client.agents.delete_agent(agent.id)
 
 
@@ -745,3 +747,11 @@ For AutoGen and Semantic Kernel, you can also integrate with Azure services, but
 - <a href="https://learn.microsoft.com/semantic-kernel/frameworks/agent/?pivots=programming-language-csharp" target="_blank">Semantic Kernel .Net Agent Framework</a>
 - <a href="https://learn.microsoft.com/azure/ai-services/agents/overview" target="_blank">Azure AI Agent service</a>
 - <a href="https://techcommunity.microsoft.com/blog/educatordeveloperblog/using-azure-ai-agent-service-with-autogen--semantic-kernel-to-build-a-multi-agen/4363121" target="_blank">Using Azure AI Agent Service with AutoGen / Semantic Kernel to build a multi-agent's solution</a>
+
+## Previous Lesson
+
+[Introduction to AI Agents and Agent Use Cases](../01-intro-to-ai-agents/README.md)
+
+## Next Lesson
+
+[Understanding Agentic Design Patterns](../03-agentic-design-patterns/README.md)

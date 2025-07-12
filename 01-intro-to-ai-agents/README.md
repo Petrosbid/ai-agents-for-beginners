@@ -1,3 +1,9 @@
+
+[![Intro to AI Agents](./images/lesson-1-thumbnail.png)](https://youtu.be/3zgm60bXmQk?si=QA4CW2-cmul5kk3D)
+
+> _(Click the image above to view video of this lesson)_
+
+
 # Introduction to AI Agents and Agent Use Cases
 
 Welcome to the "AI Agents for Beginners" course! This course provides fundamental knowledge and applied samples for building AI Agents.
@@ -42,7 +48,7 @@ Let's break this definition into smaller parts:
 
 **Access To Tools** - What tools the LLM has access to is defined by 1) the environment it's operating in and 2) the developer of the AI Agent. For our travel agent example, the agent's tools are limited by the operations available in the booking system, and/or the developer can limit the agent's tool access to flights.
 
-**Knowledge** - Outside of the information provided by the environment, AI Agents can also retrieve knowledge from other systems, services, tools, and even other agents. In the travel agent example, this knowledge could be the information on the user's travel preferences located in a customer database.
+**Memory+Knowledge** - Memory can be short-term in the context of the conversation between the user and the agent. Long-term, outside of the information provided by the environment, AI Agents can also retrieve knowledge from other systems, services, tools, and even other agents. In the travel agent example, this knowledge could be the information on the user's travel preferences located in a customer database.
 
 ### The different types of agents
 
@@ -93,5 +99,12 @@ This course is divided into some of the current popular Agentic patterns.
 
 Agentic Frameworks allow developers to implement agentic patterns through code. These frameworks offer templates, plugins, and tools for better AI Agent collaboration. These benefits provide abilities for better observability and troubleshooting of AI Agent systems.
 
-In this course, we will explore the research-driven AutoGen framework and the production ready Agent framework from Semantic Kernel.
+In this course, we will explore the research-driven AutoGen framework and the production-ready Agent framework from Semantic Kernel.
 
+## Previous Lesson
+
+[Course Setup](../00-course-setup/README.md)
+
+## Next Lesson
+
+[Exploring Agentic Frameworks](../02-explore-agentic-frameworks/README.md)
